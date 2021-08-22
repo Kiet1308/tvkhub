@@ -16,6 +16,9 @@ repeat wait() until game.Players.LocalPlayer
 repeat wait() until game.Players.LocalPlayer.Character
 repeat wait() until game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
 repeat wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("ScreenGui")
+repeat wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("ScreenGui"):FindFirstChild("Menus")
+wait(3)
+
 local print = function() end
 
 
