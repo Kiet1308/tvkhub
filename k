@@ -2272,7 +2272,7 @@ end
             "Moon Charm",
             "BasicEgg",
             "SilverEgg",
-            "DiamondEgg",
+                        "DiamondEgg",
             "RoyalJelly"
         }
         for k, v in pairs(TokenId) do
@@ -3995,6 +3995,7 @@ end
         local memo = false
         local AutoQuest = false
         local AutoDispenser = false
+        local KickWhen = false
         local AutoQ = false
         local AutoMob = false
         
@@ -4051,6 +4052,9 @@ end
         
         -- default settings
         local DefaultConfig = {
+            AutoDig=AutoDig,
+            KickWhen=KickWhen,
+            Farm = Farm,
             NearTP=NearTP,
             NearTPMag=NearTPMag,
             WebHookUrl = WebHookUrl,
@@ -4142,8 +4146,11 @@ end
             
         --pcall(
             --function()
+                if S.AutoDig then AutoDig = S.AutoDig end
+                if S.KickWhen then KickWhen=S.KickWhen end
                 if S.NearTP then NearTP=S.NearTP end
                 if S.NearTPMag then NearTPMag=S.NearTPMag end
+                if S.Farm then  Farm = S.Farm end
                 BringIns = S.BringIns
                 GatherFlame = S.GatherFlame
                 AutoSaveSettings = S.AutoSaveSettings
@@ -4214,6 +4221,9 @@ end
                 while wait(1) do
                     if AutoSaveSettings then
                         local DefaultConfig = {
+                            AutoDig=AutoDig,
+                            KickWhen=KickWhen,
+                            Farm=Farm,
                             NearTP=NearTP,
                             NearTPMag=NearTPMag,
                             WebHookTime = WebHookTime,
@@ -4286,6 +4296,9 @@ end
             function()
                 while wait(1) do
                     Con = {
+                        AutoDig=AutoDig,
+                        KickWhen=KickWhen,
+                        Farm = Farm,
                         NearTP=NearTP,
                         NearTPMag=NearTPMag,
                         HoneyPolen = HoneyPolen,
@@ -4475,7 +4488,7 @@ end
         LibToggle =
             Section11.AddToggle(
             "Auto Farm",
-            {DefaultValue = false},
+            {DefaultValue = Farm},
             function(v)
                 Farm = v
                 TempField = Field
@@ -4484,7 +4497,7 @@ end
         LibToggle =
             Section11.AddToggle(
             "Auto Dig",
-            {DefaultValue = false},
+            {DefaultValue = AutoDig},
             function(Toggle)
                 AutoDig = Toggle
                 spawn(
@@ -4728,8 +4741,16 @@ end
         )
         LibToggle =
             Section11.AddToggle(
+            "Auto Rejoin When Get Kicked",
+            {DefaultValue = KickWhen},
+            function(Toggle)
+                KickWhen = Toggle
+            end
+        )
+        LibToggle =
+            Section11.AddToggle(
             "Auto farm leaves",
-            {DefaultValue = EquipMaskBy},
+            {DefaultValue = false},
             function(Toggle)
                 Leaf = Toggle
             end
@@ -4737,7 +4758,7 @@ end
         LibToggle =
             Section11.AddToggle(
             "Auto farm Sparkle",
-            {DefaultValue = EquipMaskBy},
+            {DefaultValue = false},
             function(Toggle)
                 SparkF = Toggle
             end
@@ -5694,6 +5715,17 @@ end
             end
             return false
         end
+        spawn(function()
+            while wait(1) do 
+                if KickWhen then 
+                    if game.CoreGui.RobloxPromptGui.promptOverlay:FindFirstChild("ErrorPrompt") then
+                        while wait() do
+                            game.TeleportService:TeleportToPlaceInstance(game.PlaceId, game.JobId)
+                        end
+                    end
+                end
+            end
+        end)
         local Blacklist = {"Gummy Bear", "Ant Challenge Info", "Bubble Bee Man 2", "Stick Bug"}
         spawn(
             function()
