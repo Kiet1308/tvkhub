@@ -12,6 +12,9 @@ _G.VERSIONS = 2.2
 
 ]]
 repeat wait() until game:IsLoaded()
+repeat wait() until game.Players.LocalPlayer
+repeat wait() until game.Players.LocalPlayer.Character
+repeat wait() until game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
 local print = function() end
 
 
